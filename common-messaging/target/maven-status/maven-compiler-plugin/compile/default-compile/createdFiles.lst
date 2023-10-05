@@ -1,0 +1,9 @@
+com\zand\system\common\messaging\kafka\message\FundTransferRQMessage.class
+com\zand\system\common\messaging\kafka\publisher\KafkaProducerImpl.class
+com\zand\system\common\messaging\kafka\consumer\KafkaConsumer.class
+com\zand\system\common\messaging\kafka\message\FundTransferRSMessage.class
+com\zand\system\common\messaging\kafka\CommonMsgLibApplication.class
+com\zand\system\common\messaging\kafka\message\KafkaMessage.class
+com\zand\system\common\messaging\kafka\message\TestMessage.class
+com\zand\system\common\messaging\kafka\publisher\KafkaProducer.class
+com\zand\system\common\messaging\kafka\consumer\config\KafkaConsumerConfig.class

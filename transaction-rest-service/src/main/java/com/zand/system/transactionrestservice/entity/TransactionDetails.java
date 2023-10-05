@@ -1,0 +1,49 @@
+package com.zand.system.transactionrestservice.entity;
+
+import com.zand.system.transactionrestservice.dto.Currency;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@Builder
+@Table("transaction_detail")
+public class TransactionDetails {
+
+    @Id
+    @Column("id")
+    private Long id;
+    @Column("reference_no")
+    private String referenceNo;
+    @Column("cif_id")
+    private String cifId;
+    @Column("from_account_id")
+    private String fromAccountId;
+    @Column("to_account_id")
+    private String toAccountId;
+    @Column("amount")
+    private BigDecimal amount;
+    @Column("currency")
+    private String currency;
+    @Column("description")
+    private String description;
+    @Column("transaction_type")
+    private String transactionType;
+    @Column("transaction_status")
+    private String transactionStatus;
+    @Column("error_description")
+    private String errorDescription;
+    @Column("created_at")
+    private LocalTime createdAt;
+}

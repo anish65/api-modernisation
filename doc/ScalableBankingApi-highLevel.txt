@@ -1,0 +1,49 @@
+title Scalable Banking API
+
+actor User
+User->TrnxRestService:Fetch account balance
+activate TrnxRestService
+TrnxRestService->TrnxRestService:Query account balance\nfrom database
+TrnxRestService->User:Fetch account balance
+deactivate TrnxRestService
+
+
+User->TrnxRestService:Initiate crediyt/debit transaction 
+activate TrnxRestService
+TrnxRestService->TrnxRestService:Update Account balance\nin database
+TrnxRestService->Broker:Publish "Initiate Fund Transfer" event
+alt In Successful publishing
+TrnxRestService->User:Return credit/debit response
+else In failure in publishing
+TrnxRestService->TrnxRestService:Revert credit/debit\nbalance in database
+TrnxRestService->User:Return credit/debit response
+end
+deactivate TrnxRestService
+Broker<<--TrxnProcessor:Subscribe "Initiate Fund Transfer" event
+activate TrxnProcessor
+TrxnProcessor->LegacyService:Update legacy service \nwith debit/credit transaction
+
+
+LegacyService->TrxnProcessor:Returning credit/debit transaction
+alt In success
+Broker<<--TrnxRestService:Subscribe "Fund Transfer sucess"
+
+activate TrnxRestService
+
+TrnxRestService->TrnxRestService:Update transaction status\n
+deactivate TrnxRestService
+
+else In Failure
+TrxnProcessor->Broker:Publish "Fund Transfer failed" event
+
+deactivate TrxnProcessor
+
+Broker<<--TrnxRestService:Subscribe "Fund Transfer failed" event
+activate TrnxRestService
+
+TrnxRestService->TrnxRestService:Revert credit/debit \nin balance from DB
+deactivate TrnxRestService
+end
+
+
+
