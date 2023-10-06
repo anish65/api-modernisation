@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.support.KafkaHeaders;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -22,10 +23,13 @@ class FundTransferEventListenerTest {
 
     private FundTransferEventListener fundTransferEventListener;
 
+    @Mock
+    KafkaListenerEndpointRegistry registry;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        fundTransferEventListener = new FundTransferEventListener(txnProcessingService);
+        fundTransferEventListener = new FundTransferEventListener(txnProcessingService, registry);
     }
 
     @Test
