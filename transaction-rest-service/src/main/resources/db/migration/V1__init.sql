@@ -2,6 +2,8 @@
 
 -- DROP TABLE IF EXISTS public.transaction_detail;
 
+CREATE SEQUENCE transaction_detail_id_seq;
+
 CREATE TABLE IF NOT EXISTS public.transaction_detail
 (
     id integer NOT NULL DEFAULT nextval('transaction_detail_id_seq'::regclass),
@@ -27,6 +29,8 @@ ALTER TABLE IF EXISTS public.transaction_detail
 -- Table: public.account_detail
 
 -- DROP TABLE IF EXISTS public.account_detail;
+
+CREATE SEQUENCE account_detail_id_seq;
 
 CREATE TABLE IF NOT EXISTS public.account_detail
 (

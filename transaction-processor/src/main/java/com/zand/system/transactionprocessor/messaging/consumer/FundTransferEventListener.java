@@ -7,6 +7,7 @@ import com.zand.system.transactionprocessor.service.TxnProcessingService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -23,8 +24,12 @@ public class FundTransferEventListener implements KafkaConsumer<String, FundTran
     @SneakyThrows
     @Override
     @KafkaListener(topics = "${kafka.consumer.topic.initiate-fund-transfer}",
-            groupId = "${kafka.consumer.group-id.initiate-fund-transfer}",
-            concurrency = "5")
+            groupId = "${kafka.consumer.group-id.initiate-fund-transfer}", properties = {
+            "max.poll.interval.ms:60000",
+            ConsumerConfig.MAX_POLL_RECORDS_CONFIG + "=1",
+            ConsumerConfig.FETCH_MAX_BYTES_CONFIG + "=1",
+            ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG + "=1",
+    })
     public void receive(@Payload FundTransferRQMessage message,
                         @Header(KafkaHeaders.RECEIVED_KEY) String key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,

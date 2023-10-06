@@ -16,12 +16,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public NewTopic topicFundTransferFailure(@Value("${kafka.consumer.topic.fund-transfer-failure}") String topicName) {
-        return new NewTopic(topicName, 3, (short) 1);
+        return new NewTopic(topicName, 1, (short) 1);
     }
 
     @Bean
     public NewTopic topicFundTransferSuccess(@Value("${kafka.consumer.topic.fund-transfer-success}") String topicName) {
-        return new NewTopic(topicName, 3, (short) 1);
+        return new NewTopic(topicName, 1, (short) 1);
     }
 
 }

@@ -2,6 +2,7 @@ package com.zand.system.transactionrestservice.service;
 
 import com.zand.system.transactionrestservice.dto.AccountBalanceRS;
 import com.zand.system.transactionrestservice.dto.Currency;
+import com.zand.system.transactionrestservice.entity.AccountDetail;
 import com.zand.system.transactionrestservice.repository.AccountDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,10 @@ public class AccountService {
                     accountBalanceRS.setCurrency(Currency.valueOf(accountDetail.getCurrency()));
                     return Mono.just(accountBalanceRS);
                 }).switchIfEmpty(Mono.error(new RuntimeException("Account not found")));
+    }
+
+    public Mono<AccountDetail> createAccount(AccountDetail accountDetail) {
+        return accountDetailRepository.save(accountDetail);
     }
 
 }
