@@ -1,0 +1,42 @@
+package com.zand.system.transactionprocessor.config;
+
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.BucketConfiguration;
+import io.github.bucket4j.Refill;
+import io.github.bucket4j.distributed.proxy.ProxyManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
+import java.util.function.Supplier;
+
+@Configuration
+public class RateLimitConfig {
+
+    @Autowired
+    public ProxyManager buckets;
+
+    /**
+     * @param key
+     * In a production env, the resolveBucket function takes in the key param as an authentication
+     * token(say). Then the relevant user details can be extracted from that token to fetch the
+     * corresponding rate limit details for that particular user from the DB and subsequently
+     * process the request according to those details.
+     * */
+    public Bucket resolveBucket(String key) {
+        Supplier<BucketConfiguration> configSupplier = getConfigSupplierForUser(key);
+
+        // Does not always create a new bucket, but instead returns the existing one if it exists.
+        return buckets.builder().build(key, configSupplier);
+    }
+
+    private Supplier<BucketConfiguration> getConfigSupplierForUser(String key) {
+        Refill refill = Refill.intervally(10, Duration.ofSeconds(60));
+        Bandwidth limit = Bandwidth.classic(10, refill);
+
+        return () -> (BucketConfiguration.builder()
+                .addLimit(limit)
+                .build());
+    }
+}

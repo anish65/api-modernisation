@@ -2,6 +2,7 @@ package com.zand.system.transactionprocessor.messaging.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zand.system.common.messaging.kafka.message.FundTransferRQMessage;
+import com.zand.system.transactionprocessor.config.RateLimitConfig;
 import com.zand.system.transactionprocessor.service.TxnProcessingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,13 @@ class FundTransferEventListenerTest {
     @Mock
     KafkaListenerEndpointRegistry registry;
 
+    @Mock
+    RateLimitConfig rateLimitConfig;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        fundTransferEventListener = new FundTransferEventListener(txnProcessingService, registry);
+        fundTransferEventListener = new FundTransferEventListener(txnProcessingService, registry, rateLimitConfig);
     }
 
     @Test
