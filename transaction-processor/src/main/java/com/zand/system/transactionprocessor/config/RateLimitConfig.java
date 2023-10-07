@@ -19,10 +19,6 @@ public class RateLimitConfig {
 
     /**
      * @param key
-     * In a production env, the resolveBucket function takes in the key param as an authentication
-     * token(say). Then the relevant user details can be extracted from that token to fetch the
-     * corresponding rate limit details for that particular user from the DB and subsequently
-     * process the request according to those details.
      * */
     public Bucket resolveBucket(String key) {
         Supplier<BucketConfiguration> configSupplier = getConfigSupplierForUser(key);
@@ -39,4 +35,5 @@ public class RateLimitConfig {
                 .addLimit(limit)
                 .build());
     }
+
 }
