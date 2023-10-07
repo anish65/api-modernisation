@@ -26,6 +26,7 @@ public class AccountController {
         return accountService.getAccountBalance(accountId);
     }
 
+    // API : Used for creating account
     @PostMapping
     public Mono<AccountDetail> createAccount(@RequestBody AccountDetail accountDetail) {
         return accountService.createAccount(accountDetail);

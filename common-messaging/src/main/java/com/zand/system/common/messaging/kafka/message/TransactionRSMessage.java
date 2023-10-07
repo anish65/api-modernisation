@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FundTransferRSMessage implements KafkaMessage {
+public class TransactionRSMessage implements KafkaMessage {
 
     String referenceNo;
-    String cifId;
+    String accountId;
     String status;
     String errorDescription;
 

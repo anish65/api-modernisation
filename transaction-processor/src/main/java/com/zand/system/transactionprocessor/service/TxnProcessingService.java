@@ -1,7 +1,7 @@
 package com.zand.system.transactionprocessor.service;
 
-import com.zand.system.common.messaging.kafka.message.FundTransferRQMessage;
-import com.zand.system.common.messaging.kafka.message.FundTransferRSMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRQMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRSMessage;
 import com.zand.system.transactionprocessor.messaging.publisher.FundTxnFailureEventPublisher;
 import com.zand.system.transactionprocessor.messaging.publisher.FundTxnSuccessEventPublisher;
 import lombok.SneakyThrows;
@@ -21,13 +21,13 @@ public class TxnProcessingService {
     private CoreBankingService coreBankingService;
 
     @SneakyThrows
-    public void process(FundTransferRQMessage message) {
-        FundTransferRSMessage fundTransferRSMessage = coreBankingService.doFundTransfer(message);
-        if(fundTransferRSMessage.getStatus().equalsIgnoreCase("FAILED")) {
-            failureEventPublisher.publish(fundTransferRSMessage);
+    public void process(TransactionRQMessage message) {
+        TransactionRSMessage transactionRSMessage = coreBankingService.doTransaction(message);
+        if(transactionRSMessage.getStatus().equalsIgnoreCase("FAILED")) {
+            failureEventPublisher.publish(transactionRSMessage);
             return;
         }
-        successEventPublisher.publish(fundTransferRSMessage);
+        successEventPublisher.publish(transactionRSMessage);
     }
 
 }

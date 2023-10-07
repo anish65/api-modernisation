@@ -1,8 +1,7 @@
 package com.zand.system.transactionrestservice.controller;
 
-import com.zand.system.transactionrestservice.dto.FundTransferRQ;
-import com.zand.system.transactionrestservice.dto.FundTransferRS;
-import com.zand.system.transactionrestservice.dto.TransactionType;
+import com.zand.system.transactionrestservice.dto.TransactionRS;
+import com.zand.system.transactionrestservice.dto.TransactionRQ;
 import com.zand.system.transactionrestservice.service.TransactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +21,14 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @PostMapping("/debit")
+    public Mono<TransactionRS> doDebitTransaction(@Validated @RequestBody TransactionRQ transactionRQ) {
+        return transactionService.doDebitTransaction(transactionRQ);
+    }
 
-    @PostMapping("/fundTransfer")
-    public Mono<FundTransferRS> doFundTransferTransaction(@Validated @RequestBody FundTransferRQ fundTransferRQ) {
-        return transactionService.doFundTransferTransaction(fundTransferRQ);
+    @PostMapping("/credit")
+    public Mono<TransactionRS> doCreditTransaction(@Validated @RequestBody TransactionRQ transactionRQ) {
+        return transactionService.doCreditTransaction(transactionRQ);
     }
 
 }

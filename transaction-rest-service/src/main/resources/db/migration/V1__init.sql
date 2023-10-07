@@ -8,9 +8,7 @@ CREATE TABLE IF NOT EXISTS public.transaction_detail
 (
     id integer NOT NULL DEFAULT nextval('transaction_detail_id_seq'::regclass),
     reference_no character varying COLLATE pg_catalog."default" NOT NULL,
-    cif_id character varying COLLATE pg_catalog."default" NOT NULL,
-    from_account_id character varying COLLATE pg_catalog."default" NOT NULL,
-    to_account_id character varying COLLATE pg_catalog."default" NOT NULL,
+    account_id character varying COLLATE pg_catalog."default" NOT NULL,
     amount numeric NOT NULL,
     currency character varying COLLATE pg_catalog."default" NOT NULL,
     description character varying COLLATE pg_catalog."default" NOT NULL,

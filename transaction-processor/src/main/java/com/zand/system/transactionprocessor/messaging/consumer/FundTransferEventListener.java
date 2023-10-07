@@ -2,7 +2,7 @@ package com.zand.system.transactionprocessor.messaging.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zand.system.common.messaging.kafka.consumer.KafkaConsumer;
-import com.zand.system.common.messaging.kafka.message.FundTransferRQMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRQMessage;
 import com.zand.system.transactionprocessor.config.RateLimitConfig;
 import com.zand.system.transactionprocessor.service.TxnProcessingService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FundTransferEventListener implements KafkaConsumer<String, FundTransferRQMessage> {
+public class FundTransferEventListener implements KafkaConsumer<String, TransactionRQMessage> {
 
     private final TxnProcessingService txnProcessingService;
 
@@ -45,7 +45,7 @@ public class FundTransferEventListener implements KafkaConsumer<String, FundTran
             ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG + "=1",
             ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG+ "=1"
     }, concurrency = "5")
-    public void receive(@Payload FundTransferRQMessage message,
+    public void receive(@Payload TransactionRQMessage message,
                         @Header(KafkaHeaders.RECEIVED_KEY) String key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                         @Header(KafkaHeaders.OFFSET) Long offset) {

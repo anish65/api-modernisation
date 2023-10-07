@@ -4,14 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.zand.system.common.messaging.kafka.message.FundTransferRQMessage;
-import com.zand.system.transactionrestservice.builder.FundTransferMessageBuilder;
-import com.zand.system.transactionrestservice.builder.TransactionDetailEntityBuilder;
-import com.zand.system.transactionrestservice.dto.Currency;
-import com.zand.system.transactionrestservice.dto.FundTransferRQ;
-import com.zand.system.transactionrestservice.dto.FundTransferRS;
+import com.zand.system.transactionrestservice.dto.TransactionRQ;
+import com.zand.system.transactionrestservice.dto.TransactionRS;
 import com.zand.system.transactionrestservice.entity.AccountDetail;
-import com.zand.system.transactionrestservice.entity.TransactionDetails;
 import com.zand.system.transactionrestservice.exception.InvalidRequestException;
 import com.zand.system.transactionrestservice.messaging.producer.FundTxnPublisher;
 import com.zand.system.transactionrestservice.repository.AccountDetailRepository;
@@ -82,32 +77,26 @@ public class TransactionServiceTest {
         TransactionService transactionService = new TransactionService(fundTxnPublisher, accountDetailRepository, transactionDetailsRepository);
 
         // Create mock data
-        FundTransferRQ fundTransferRQ = new FundTransferRQ();
-        fundTransferRQ.setFromAccountId("123456");
-        fundTransferRQ.setToAccountId("789012");
-        fundTransferRQ.setAmount(BigDecimal.valueOf(10000.0));
+        TransactionRQ transactionRQ = new TransactionRQ();
+        transactionRQ.setAccountId("123456");
+        transactionRQ.setAmount(BigDecimal.valueOf(10000.0));
 
-        AccountDetail fromAccountDetails = new AccountDetail();
-        fromAccountDetails.setAccountId("123456");
-        fromAccountDetails.setBalance(BigDecimal.valueOf(1000.0));
-
-        AccountDetail toAccountDetails = new AccountDetail();
-        toAccountDetails.setAccountId("789012");
-        toAccountDetails.setBalance(BigDecimal.valueOf(500.0));
+        AccountDetail accountDetail = new AccountDetail();
+        accountDetail.setAccountId("123456");
+        accountDetail.setBalance(BigDecimal.valueOf(1000.0));
 
         // Set up the accountDetailRepository.findByAccountId method to return the mock AccountDetail objects
-        when(accountDetailRepository.findByAccountId("123456")).thenReturn(Mono.just(fromAccountDetails));
-        when(accountDetailRepository.findByAccountId("789012")).thenReturn(Mono.just(toAccountDetails));
+        when(accountDetailRepository.findByAccountId("123456")).thenReturn(Mono.just(accountDetail));
 
         // Call the doFundTransferTransaction method and verify that the returned Mono emits an error
-        Mono<FundTransferRS> result = transactionService.doFundTransferTransaction(fundTransferRQ);
+        Mono<TransactionRS> result = transactionService.doDebitTransaction(transactionRQ);
         StepVerifier.create(result)
                 .expectError(RuntimeException.class)
                 .verify();
     }
 
     @Test
-    public void testDoFundTransferTransactionFromAccountNotFound() {
+    public void testDoDebitTransactionAccountNotFound() {
         // Create mock objects
         FundTxnPublisher fundTxnPublisher = mock(FundTxnPublisher.class);
         AccountDetailRepository accountDetailRepository = mock(AccountDetailRepository.class);
@@ -117,28 +106,22 @@ public class TransactionServiceTest {
         TransactionService transactionService = new TransactionService(fundTxnPublisher, accountDetailRepository, transactionDetailsRepository);
 
         // Create mock data
-        FundTransferRQ fundTransferRQ = new FundTransferRQ();
-        fundTransferRQ.setFromAccountId("123456");
-        fundTransferRQ.setToAccountId("789012");
-        fundTransferRQ.setAmount(BigDecimal.valueOf(100.0));
-
-        AccountDetail toAccountDetails = new AccountDetail();
-        toAccountDetails.setAccountId("789012");
-        toAccountDetails.setBalance(BigDecimal.valueOf(500.0));
+        TransactionRQ transactionRQ = new TransactionRQ();
+        transactionRQ.setAccountId("123456");
+        transactionRQ.setAmount(BigDecimal.valueOf(100.0));
 
         // Set up the accountDetailRepository.findByAccountId method to return the mock AccountDetail objects
         when(accountDetailRepository.findByAccountId("123456")).thenReturn(Mono.empty());
-        when(accountDetailRepository.findByAccountId("789012")).thenReturn(Mono.just(toAccountDetails));
 
         // Call the doFundTransferTransaction method and verify that the returned Mono emits an error
-        Mono<FundTransferRS> result = transactionService.doFundTransferTransaction(fundTransferRQ);
+        Mono<TransactionRS> result = transactionService.doDebitTransaction(transactionRQ);
         StepVerifier.create(result)
                 .expectError(InvalidRequestException.class)
                 .verify();
     }
 
     @Test
-    public void testDoFundTransferTransactionToAccountNotFound() {
+    public void testDoCreditTransactionAccountNotFound() {
         // Create mock objects
         FundTxnPublisher fundTxnPublisher = mock(FundTxnPublisher.class);
         AccountDetailRepository accountDetailRepository = mock(AccountDetailRepository.class);
@@ -148,21 +131,15 @@ public class TransactionServiceTest {
         TransactionService transactionService = new TransactionService(fundTxnPublisher, accountDetailRepository, transactionDetailsRepository);
 
         // Create mock data
-        FundTransferRQ fundTransferRQ = new FundTransferRQ();
-        fundTransferRQ.setFromAccountId("123456");
-        fundTransferRQ.setToAccountId("789012");
-        fundTransferRQ.setAmount(BigDecimal.valueOf(100.0));
-
-        AccountDetail fromAccountDetails = new AccountDetail();
-        fromAccountDetails.setAccountId("123456");
-        fromAccountDetails.setBalance(BigDecimal.valueOf(1000.0));
+        TransactionRQ transactionRQ = new TransactionRQ();
+        transactionRQ.setAccountId("123456");
+        transactionRQ.setAmount(BigDecimal.valueOf(100.0));
 
         // Set up the accountDetailRepository.findByAccountId method to return the mock AccountDetail objects
-        when(accountDetailRepository.findByAccountId("123456")).thenReturn(Mono.just(fromAccountDetails));
-        when(accountDetailRepository.findByAccountId("789012")).thenReturn(Mono.empty());
+        when(accountDetailRepository.findByAccountId("123456")).thenReturn(Mono.empty());
 
         // Call the doFundTransferTransaction method and verify that the returned Mono emits an error
-        Mono<FundTransferRS> result = transactionService.doFundTransferTransaction(fundTransferRQ);
+        Mono<TransactionRS> result = transactionService.doCreditTransaction(transactionRQ);
         StepVerifier.create(result)
                 .expectError(InvalidRequestException.class)
                 .verify();

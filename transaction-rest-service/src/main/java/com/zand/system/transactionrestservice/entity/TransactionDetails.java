@@ -26,12 +26,8 @@ public class TransactionDetails {
     private Long id;
     @Column("reference_no")
     private String referenceNo;
-    @Column("cif_id")
-    private String cifId;
-    @Column("from_account_id")
-    private String fromAccountId;
-    @Column("to_account_id")
-    private String toAccountId;
+    @Column("account_id")
+    private String accountId;
     @Column("amount")
     private BigDecimal amount;
     @Column("currency")

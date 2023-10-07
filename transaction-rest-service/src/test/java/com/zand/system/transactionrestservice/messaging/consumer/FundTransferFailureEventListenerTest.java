@@ -3,7 +3,7 @@ package com.zand.system.transactionrestservice.messaging.consumer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import com.zand.system.common.messaging.kafka.message.FundTransferRSMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRSMessage;
 import com.zand.system.transactionrestservice.service.TransactionService;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class FundTransferFailureEventListenerTest {
     @Test
     public void testReceive() {
         // Create a mock FundTransferRSMessage object
-        FundTransferRSMessage message = new FundTransferRSMessage();
+        TransactionRSMessage message = new TransactionRSMessage();
         message.setReferenceNo("123456");
 
         // Create a mock TransactionService object

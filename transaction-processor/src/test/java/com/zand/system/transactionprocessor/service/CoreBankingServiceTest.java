@@ -1,7 +1,7 @@
 package com.zand.system.transactionprocessor.service;
 
-import com.zand.system.common.messaging.kafka.message.FundTransferRQMessage;
-import com.zand.system.common.messaging.kafka.message.FundTransferRSMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRQMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRSMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -29,28 +28,28 @@ class CoreBankingServiceTest {
     }
 
     @Test
-    void doFundTransfer_shouldReturnSuccessResponse_whenCoreBankingServiceIsUp() {
-        FundTransferRQMessage request = new FundTransferRQMessage();
-        FundTransferRSMessage expectedResponse = new FundTransferRSMessage();
+    void doTransaction_shouldReturnSuccessResponse_whenCoreBankingServiceIsUp() {
+        TransactionRQMessage request = new TransactionRQMessage();
+        TransactionRSMessage expectedResponse = new TransactionRSMessage();
         expectedResponse.setStatus("SUCCESS");
 
-        when(restTemplate.postForObject(URL, request, FundTransferRSMessage.class)).thenReturn(expectedResponse);
+        when(restTemplate.postForObject(URL, request, TransactionRSMessage.class)).thenReturn(expectedResponse);
 
-        FundTransferRSMessage actualResponse = coreBankingService.doFundTransfer(request);
+        TransactionRSMessage actualResponse = coreBankingService.doTransaction(request);
 
         assertNotNull("SUCCESS", actualResponse.getStatus());
     }
 
     @Test
-    void doFundTransfer_shouldReturnErrorResponse_whenCoreBankingServiceIsDown() {
-        FundTransferRQMessage request = new FundTransferRQMessage();
-        FundTransferRSMessage expectedResponse = new FundTransferRSMessage();
+    void doTransaction_shouldReturnErrorResponse_whenCoreBankingServiceIsDown() {
+        TransactionRQMessage request = new TransactionRQMessage();
+        TransactionRSMessage expectedResponse = new TransactionRSMessage();
         expectedResponse.setStatus("FAILED");
         expectedResponse.setErrorDescription("downstream service is down");
 
-        when(restTemplate.postForObject(URL, request, FundTransferRSMessage.class)).thenThrow(new RuntimeException());
+        when(restTemplate.postForObject(URL, request, TransactionRSMessage.class)).thenThrow(new RuntimeException());
 
-        FundTransferRSMessage actualResponse = coreBankingService.doFundTransfer(request);
+        TransactionRSMessage actualResponse = coreBankingService.doTransaction(request);
 
         assertNotNull("FAILED", actualResponse.getStatus());
     }

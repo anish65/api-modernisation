@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FundTransferRS {
+public class TransactionRS {
 
     String referenceNo;
     Status status;

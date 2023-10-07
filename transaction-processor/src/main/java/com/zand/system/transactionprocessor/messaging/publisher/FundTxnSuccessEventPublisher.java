@@ -1,6 +1,6 @@
 package com.zand.system.transactionprocessor.messaging.publisher;
 
-import com.zand.system.common.messaging.kafka.message.FundTransferRSMessage;
+import com.zand.system.common.messaging.kafka.message.TransactionRSMessage;
 import com.zand.system.common.messaging.kafka.publisher.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 public interface FundTxnSuccessEventPublisher {
-    void publish(FundTransferRSMessage event);
+    void publish(TransactionRSMessage event);
 }
 
 @Slf4j
@@ -19,10 +19,10 @@ class KafkaFundTxnSuccessEventPublisher implements FundTxnSuccessEventPublisher 
 
     @Value("${kafka.publisher.topic.fund-transfer-success}")
     private String topicName;
-    private final KafkaProducer<String, FundTransferRSMessage> kafkaProducer;
+    private final KafkaProducer<String, TransactionRSMessage> kafkaProducer;
 
     @Override
-    public void publish(final FundTransferRSMessage event) {
+    public void publish(final TransactionRSMessage event) {
         kafkaProducer.sendAsync(topicName, event.getReferenceNo(), event).whenComplete((metadata, exception) -> {
             if (exception != null) {
                 log.error("Error while sending fund transfer failure message to kafka with receipt id: {}. Error: {}",

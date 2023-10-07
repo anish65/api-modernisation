@@ -4,30 +4,17 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-public class FundTransferRQ {
-
-    @NotEmpty
-    @Pattern(regexp="^[0-9]+$", message="invalid Account Id with non numeric characters")
-    String cifId;
+@Data
+public class TransactionRQ {
 
     @NotEmpty
     @Size(min = 10, max = 10, message = "invalid Account Id")
     @Pattern(regexp="^[0-9]+$", message="invalid Account Id with non numeric characters")
-    String fromAccountId;
-
-    @NotNull
-    @NotEmpty
-    @Size(min = 10, max = 10, message = "invalid Account Id")
-    @Pattern(regexp="^[0-9]+$", message="invalid Account Id with non numeric characters")
-    String toAccountId;
+    String accountId;
 
     @NotNull
     BigDecimal amount;
@@ -38,7 +25,4 @@ public class FundTransferRQ {
     @NotEmpty
     String description;
 
-
 }
-
-

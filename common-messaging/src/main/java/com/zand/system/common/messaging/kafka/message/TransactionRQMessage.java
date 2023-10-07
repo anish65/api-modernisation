@@ -8,12 +8,10 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FundTransferRQMessage implements KafkaMessage {
+public class TransactionRQMessage implements KafkaMessage {
 
     String referenceNo;
-    String cifId;
-    String fromAccountId;
-    String toAccountId;
+    String accountId;
     BigDecimal amount;
     String currency;
     String description;
