@@ -132,4 +132,6 @@ described below.
 
 ## In-progress items
 - Unit test
+- Retry the on the kafka publisher calls and rest calls
+- Reverse sync on the balance, if any update occurred core banking (by some other means)
 

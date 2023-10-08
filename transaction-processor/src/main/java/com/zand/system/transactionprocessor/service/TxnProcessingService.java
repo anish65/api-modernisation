@@ -20,7 +20,6 @@ public class TxnProcessingService {
     @Autowired
     private CoreBankingService coreBankingService;
 
-    @SneakyThrows
     public void process(TransactionRQMessage message) {
         TransactionRSMessage transactionRSMessage = coreBankingService.doTransaction(message);
         if(transactionRSMessage.getStatus().equalsIgnoreCase("FAILED")) {

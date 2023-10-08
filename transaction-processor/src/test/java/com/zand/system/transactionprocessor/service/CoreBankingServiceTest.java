@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class CoreBankingServiceTest {
-
-    private static final String URL = "http://localhost:8088/core-banking/fundTransfer";
 
     @Mock
     private RestTemplate restTemplate;
@@ -25,6 +25,8 @@ class CoreBankingServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(coreBankingService, "baseUrl", "http://baseUrl");
+        ReflectionTestUtils.setField(coreBankingService, "transactionPath", "/transactionPath");
     }
 
     @Test
@@ -33,24 +35,28 @@ class CoreBankingServiceTest {
         TransactionRSMessage expectedResponse = new TransactionRSMessage();
         expectedResponse.setStatus("SUCCESS");
 
-        when(restTemplate.postForObject(URL, request, TransactionRSMessage.class)).thenReturn(expectedResponse);
+        when(restTemplate.postForObject(anyString(), any(TransactionRQMessage.class), any()))
+                .thenReturn(expectedResponse);
 
         TransactionRSMessage actualResponse = coreBankingService.doTransaction(request);
 
+        assertEquals(expectedResponse, actualResponse);
         assertNotNull("SUCCESS", actualResponse.getStatus());
     }
 
-    @Test
+    @Test()
     void doTransaction_shouldReturnErrorResponse_whenCoreBankingServiceIsDown() {
         TransactionRQMessage request = new TransactionRQMessage();
         TransactionRSMessage expectedResponse = new TransactionRSMessage();
         expectedResponse.setStatus("FAILED");
         expectedResponse.setErrorDescription("downstream service is down");
 
-        when(restTemplate.postForObject(URL, request, TransactionRSMessage.class)).thenThrow(new RuntimeException());
+        when(restTemplate.postForObject(anyString(), any(TransactionRQMessage.class), any()))
+                .thenThrow(new RuntimeException("test"));
 
         TransactionRSMessage actualResponse = coreBankingService.doTransaction(request);
 
         assertNotNull("FAILED", actualResponse.getStatus());
+        assertNotNull("downstream service is down", actualResponse.getErrorDescription());
     }
 }
