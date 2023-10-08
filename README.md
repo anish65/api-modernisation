@@ -65,14 +65,13 @@ Steps to locally run the required applications,
     - Using maven
       - Step 1: Open `terminal` and move to the `zand-fund-transfer` directory
         - `cd {your-location}/zand-fund-transfer` 
-      - Step 2: Build the `common-messaging` 
+      - Step 2: Move to the `common-messaging` directory and build the
         - `./mvn clean install --file ./common-mesaging/pom.xml`
-
-      - Step 2: Run each of the below commands on a separate terminal,
-        - `./mvn clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
-        - `./mvn clean spring-boot:run --file ./transaction-rest-service/pom.xml`
-        - `./mvn clean spring-boot:run --file ./transaction-proceessor/pom.xml`
-        - `./mvn clean spring-boot:run --file ./legacy-service/pom.xml`
+      - Step 3: Run each of the below commands on a separate terminal,
+        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first
+        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`
+        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`
+        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`
 
        **(or)**
 
@@ -93,5 +92,5 @@ described below.
 ## Assumptions
 
 ## In-progress items
-- unit
+- Unit test
 
