@@ -107,10 +107,10 @@ Steps to locally run the required applications,
       - Step 2: Move to the `common-messaging` directory and build the
         - `./mvn clean install --file ./common-mesaging/pom.xml`
       - Step 3: Run each of the below commands on a separate terminal,
-        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first, [refer](./kafka-stream/README.md)
-        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`, [refer](./transaction-rest-service/README.md)
-        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`, [refer](./transaction-proceessor/README.md)
-        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`, [refer](./legacy-service/README.md)
+        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first. [refer](./kafka-stream/README.md)
+        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`. [refer](./transaction-rest-service/README.md)
+        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`. [refer](./transaction-proceessor/README.md)
+        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`. [refer](./legacy-service/README.md)
 
        **(or)**
 
@@ -125,8 +125,6 @@ Steps to locally run the required applications,
 described below.
 
 ## Steps to verify the flow
-
-
 
 ## Design Decisions
 
