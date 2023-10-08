@@ -64,8 +64,7 @@ public class TransactionService {
 
 
     private Mono<TransactionRQMessage> saveAccountDetailsAndCreatePublishMsg(TransactionRQ transactionRQ,
-                                                                             AccountDetail accountDetail,
-                                                                             TransactionType transactionType) {
+                                                                             AccountDetail accountDetail,TransactionType transactionType) {
         TransactionRQMessage transactionRQMessage = TransactionEventMsgBuilder.mapToFundTransferMessage(transactionRQ, transactionType);
         // Save the transaction to database account balance
         TransactionDetails transactionDetails = TransactionDetailEntityBuilder.buildTransactionEntity(transactionRQMessage);
@@ -104,7 +103,7 @@ public class TransactionService {
                 });
     }
 
-    public void rollbackDebitTransaction(TransactionRSMessage message) {
+    public void rollbackTransaction(TransactionRSMessage message) {
         transactionDetailsRepository.findByReferenceNo(message.getReferenceNo())
                 .subscribe(transactionDetail -> {
                     accountDetailRepository.findByAccountId(transactionDetail.getAccountId())

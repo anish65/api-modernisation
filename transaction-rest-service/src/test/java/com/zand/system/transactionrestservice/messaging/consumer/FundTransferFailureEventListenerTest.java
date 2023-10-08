@@ -23,6 +23,6 @@ public class FundTransferFailureEventListenerTest {
 
         // Call the receive method and verify that the transactionService.rollbackDebitTransaction method was called
         fundTransferFailureEventListener.receive(message, "test-key", 0, 0L);
-        verify(transactionService).rollbackDebitTransaction(message);
+        verify(transactionService).rollbackTransaction(message);
     }
 }

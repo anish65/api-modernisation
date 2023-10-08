@@ -1,14 +1,13 @@
 package com.zand.system.transactionrestservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Schema(description = "Transaction Response")
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Transaction Response")
 public class TransactionRS {
 
     @Schema(description = "Reference number for this transaction")

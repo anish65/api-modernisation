@@ -30,7 +30,7 @@ public class FundTransferFailureEventListener implements KafkaConsumer<String, T
                         @Header(KafkaHeaders.OFFSET) Long offset) {
         log.info("Received Failure message with key: {}, message: {}, partition: {} and offset: {}", key,
                 new ObjectMapper().writeValueAsString(message), partition, offset);
-        transactionService.rollbackDebitTransaction(message);
+        transactionService.rollbackTransaction(message);
     }
 
 }

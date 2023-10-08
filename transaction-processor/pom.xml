@@ -132,7 +132,6 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/config/constants/*</exclude>
 						<exclude>**/zand/**/TransactionProcessorApplication.class</exclude>
 					</excludes>
 				</configuration>
