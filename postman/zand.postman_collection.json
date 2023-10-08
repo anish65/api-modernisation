@@ -6,16 +6,16 @@
 	},
 	"item": [
 		{
-			"name": "legacy",
+			"name": "legacy-service",
 			"item": [
 				{
-					"name": "Debit transaction",
+					"name": "Transaction API",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"referenceNo\" : \"9758756587789\",\r\n    \"accountId\" : \"0123456789\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\"\r\n}",
+							"raw": "{\r\n    \"referenceNo\" : \"9758756587789\",\r\n    \"accountId\" : \"0123456789\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\",\r\n    \"transactionType\" : \"DEBIT\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,7 +23,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8088/core-banking/transactions/debit",
+							"raw": "http://localhost:8088/core-banking/transactions",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31,38 +31,7 @@
 							"port": "8088",
 							"path": [
 								"core-banking",
-								"transactions",
-								"debit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Credit transaction",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"referenceNo\" : \"9758756587789\",\r\n    \"accountId\" : \"0123456787\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8088/core-banking/transactions/credit",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8088",
-							"path": [
-								"core-banking",
-								"transactions",
-								"credit"
+								"transactions"
 							]
 						}
 					},
@@ -71,7 +40,7 @@
 			]
 		},
 		{
-			"name": "newGen",
+			"name": "transaction-rest-service",
 			"item": [
 				{
 					"name": "Debit Transaction API",

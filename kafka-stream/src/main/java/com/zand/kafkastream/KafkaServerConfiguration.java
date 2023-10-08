@@ -44,31 +44,4 @@ class KafkaServerConfiguration {
         return new KafkaAdmin(configs);
     }
 
-//    @Bean
-//    public NewTopic topicFundTransferEvent() {
-//        return createNewTopicWithDefaults("initiate-fund-transfer-event");
-//    }
-//
-//    @Bean
-//    public NewTopic topicFundTransferFailedEvent() {
-//        return createNewTopicWithDefaults("fund-transfer-failure-event");
-//    }
-//
-//    private NewTopic createNewTopicWithDefaults(String name) {
-//        return TopicBuilder.name(name)
-//                .partitions(3)
-//                .replicas(1)
-//                .build();
-//    }
-//
-//    @KafkaListener(id = "kafka-server-1", topics = "initiate-fund-transfer-event")
-//    public void listenFundTransfer(String in) {
-//        System.out.println(in);
-//    }
-//
-//    @KafkaListener(id = "kafka-server-2", topics = "fund-transfer-failure")
-//    public void listenFundTransferFailed(String in) {
-//        System.out.println(in);
-//    }
-
 }

@@ -1,6 +1,7 @@
 package com.zand.system.transactionrestservice.entity;
 
 import com.fasterxml.jackson.databind.annotation.EnumNaming;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class AccountDetail {
 
     @Id
     @Column("id")
+//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
     @Column("cif_id")
     private String cifId;
@@ -33,6 +35,7 @@ public class AccountDetail {
     @Column("account_balance")
     private BigDecimal balance;
     @Column("created_at")
+//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private LocalTime createdAt;
 
 }

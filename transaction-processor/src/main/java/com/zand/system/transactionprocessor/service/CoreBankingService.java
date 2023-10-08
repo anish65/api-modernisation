@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class CoreBankingService {
     //Todo : Retry logic
     public TransactionRSMessage doTransaction(TransactionRQMessage message) {
         try {
-            return restTemplate.postForObject(getTransactionUrl(message), message, TransactionRSMessage.class);
+            return restTemplate.postForObject(baseUrl+transactionPath, message, TransactionRSMessage.class);
         } catch (Exception e) {
             log.error("Error while calling core banking service. Error: {}", e.getMessage());
             TransactionRSMessage fundTransferRSMessage = new TransactionRSMessage();
@@ -36,12 +35,6 @@ public class CoreBankingService {
             fundTransferRSMessage.setErrorDescription("downstream service is down");
             return fundTransferRSMessage;
         }
-    }
-
-    private String getTransactionUrl(TransactionRQMessage message) {
-        return UriComponentsBuilder.fromHttpUrl(baseUrl+transactionPath)
-                .buildAndExpand("DEBIT".equals(message.getTransactionType())?"debit":"credit")
-                .toString();
     }
 
 }

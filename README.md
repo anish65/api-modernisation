@@ -76,6 +76,5 @@ sequenceDiagram
 
 ## Assumptions
 
-
 ## In-progress items
 
