@@ -34,6 +34,45 @@ and maintainability.
 
 ![Link Name](./doc/ScalableBankingApi-highlevel.png)
 
+## Components
+### Transaction-Rest-Service
+- Functionality
+  - This service handles debit and credit transactions by exposing the
+    REST API for transactions and balance API.
+  - It saves the balance information in the relational database to provide
+    more real time balance.
+  - Also publishes an “Initiate Fund Transfer” event to kafka which will
+    eventually update the legacy system asynchronously
+- Technology
+  - Java, Spring boot, Webflux, Postgresql, kafka
+
+
+### Transaction-Processor-Service
+- Functionality
+  - It subscribed to the “Initiate Fund Transfer” event with kafka.
+  - Once this event is received, It will update the legacy system through
+  rest api.
+  - If the Call to the legacy system is done it will publish "success" or "failure" events to broker
+  - It uses bucket4j with redis cache as rate limiter, while communicating with the Legacy-Service to
+  ensure transaction processing without overwhelming it
+- Technology
+  - Java, Spring boot, Redis, kafka
+
+### Legacy-Service
+- Functionality
+  - The Legacy-Service serves as a mock legacy system simulator, emulating the
+  behaviour and limitations of the actual legacy system.
+  - It exposes an API with certain TPS for handling transaction requests.
+- Technology
+  - Java, Spring boot
+
+### Kafka-Server
+- Functionality
+  - Kafka serves as a message broker for facilitating communication
+    between microservices through an event-driven architecture.
+- Technology
+  - Java, Spring boot Kafka
+
 ## Pre-requisite
 
 Please make sure your machine has the following things installed,
@@ -68,10 +107,10 @@ Steps to locally run the required applications,
       - Step 2: Move to the `common-messaging` directory and build the
         - `./mvn clean install --file ./common-mesaging/pom.xml`
       - Step 3: Run each of the below commands on a separate terminal,
-        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first
-        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`
-        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`
-        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`
+        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first, [refer](./kafka-stream/README.md)
+        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`, [refer](./transaction-rest-service/README.md)
+        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`, [refer](./transaction-proceessor/README.md)
+        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`, [refer](./legacy-service/README.md)
 
        **(or)**
 
@@ -86,6 +125,8 @@ Steps to locally run the required applications,
 described below.
 
 ## Steps to verify the flow
+
+
 
 ## Design Decisions
 
