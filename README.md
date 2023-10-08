@@ -2,10 +2,11 @@
 
 ### Table of Contents
 - [Introduction](#introduction)
+- [Block-diagram](#block-diagram)
+- [Sequence Diagram](#sequence-diagram)
 - [Pre-requisite](#pre-requisite)  
 - [Module anatomy](#module-anatomy)
 - [Local Run](#local-run)
-- [Sequence Diagram](#sequence-diagram)
 - [Steps to verify the flow](#steps-to-verify-the-flow)
 - [Design Decisions](#design-decisions)
 - [Assumptions](#assumptions)
@@ -13,7 +14,25 @@
 
 ## Introduction
 
-Microservices Architecture approach that enhances scalability, integrates with legacy systems, and ensures real-time services.
+Microservices Architecture approach of a scalable REST API for a banking
+system that handles debit and credit transactions for individual accounts. The goal is to
+create a system that efficiently manages a large volume of requests in parallel without
+overwhelming an existing legacy system with limited throughput capabilities. Key concepts
+employed in this solution include:
+- Microservices: Breaking down the system into smaller, independent services.
+- CQRS (Command Query Responsibility Segregation): Separation of write
+(transaction) and read (balance) operations.
+- Kafka: Facilitating communication between microservices.
+- Event-Driven Architecture: Microservices communicate via events for scalability
+and maintainability.
+
+## Block-diagram
+
+![Link Name](./doc/Block-diagram.png)
+
+## Sequence Diagram
+
+![Link Name](./doc/ScalableBankingApi-highlevel.png)
 
 ## Pre-requisite
 
@@ -43,19 +62,22 @@ Please make sure your machine has the following things installed,
 ## Local Run 
 Steps to locally run the required applications,
   - Please run the below services,
-    - Using maven wrapper (maven wrapper doesn't need maven installation locally)
-      - Step 1: Open `terminal` and move to the `skiply-system` directory
-        - `cd {your-location}/skiply-system` 
+    - Using maven
+      - Step 1: Open `terminal` and move to the `zand-fund-transfer` directory
+        - `cd {your-location}/zand-fund-transfer` 
+      - Step 2: Build the `common-messaging` 
+        - `./mvn clean install --file ./common-mesaging/pom.xml`
 
       - Step 2: Run each of the below commands on a separate terminal,
-        - `./mvnw clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
-        - `./mvnw clean spring-boot:run --file ./transaction-rest-service/pom.xml`
-        - `./mvnw clean spring-boot:run --file ./transaction-proceessor/pom.xml`
-        - `./mvnw clean spring-boot:run --file ./legacy-service/pom.xml`
+        - `./mvn clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
+        - `./mvn clean spring-boot:run --file ./transaction-rest-service/pom.xml`
+        - `./mvn clean spring-boot:run --file ./transaction-proceessor/pom.xml`
+        - `./mvn clean spring-boot:run --file ./legacy-service/pom.xml`
 
        **(or)**
 
     - Using IDE as spring boot application,
+      - `common-messaging` - Build this repo first
       - `kafka-server` - recommended to start this first.
       - `transaction-rest-service`
       - `transaction-processor`
@@ -64,12 +86,6 @@ Steps to locally run the required applications,
   - Once all the services are up & running, then go to service specific Swagger UI to execute the flows as 
 described below.
 
-## Sequence Diagram
-
-```mermaid
-sequenceDiagram
-```
-
 ## Steps to verify the flow
 
 ## Design Decisions
@@ -77,4 +93,5 @@ sequenceDiagram
 ## Assumptions
 
 ## In-progress items
+- unit
 
