@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Duration;
 import java.util.function.Supplier;
@@ -30,7 +31,8 @@ class RateLimitConfigTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         rateLimitConfig = new RateLimitConfig();
-        rateLimitConfig.buckets = buckets;
+        ReflectionTestUtils.setField(rateLimitConfig, "buckets", buckets);
+        ReflectionTestUtils.setField(rateLimitConfig, "rateLimit", 3);
     }
 
     @Test
