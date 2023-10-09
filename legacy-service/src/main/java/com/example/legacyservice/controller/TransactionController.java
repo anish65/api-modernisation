@@ -35,7 +35,7 @@ public class TransactionController {
 
     @PostConstruct
     public void init() {
-        Bandwidth limit = Bandwidth.classic(12, Refill.greedy(12, Duration.ofMinutes(1)));
+        Bandwidth limit = Bandwidth.classic(7, Refill.greedy(7, Duration.ofMinutes(1)));
         this.bucket = Bucket.builder()
                 .addLimit(limit)
                 .build();

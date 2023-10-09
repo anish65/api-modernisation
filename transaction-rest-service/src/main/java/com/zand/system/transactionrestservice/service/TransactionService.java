@@ -113,6 +113,7 @@ public class TransactionService {
                                     case "CREDIT" -> accountDetail.setBalance(accountDetail.getBalance().subtract(transactionDetail.getAmount()));
                                     default -> throw new IllegalArgumentException("Invalid transaction Type");
                                 }
+                                accountDetailRepository.save(accountDetail).subscribe();
                             });
                     transactionDetail.setTransactionStatus(message.getStatus());
                     transactionDetail.setTransactionStatus(message.getErrorDescription());

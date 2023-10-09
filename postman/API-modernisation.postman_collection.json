@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "9ff47546-15b2-44ff-9394-1924752d4d84",
-		"name": "zand",
+		"name": "API-modernisation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -10,12 +10,25 @@
 			"item": [
 				{
 					"name": "Transaction API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"referenceNo\" : \"9758756587789\",\r\n    \"accountId\" : \"0123456789\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\",\r\n    \"transactionType\" : \"DEBIT\"\r\n}",
+							"raw": "{\r\n    \"referenceNo\" : \"9758756587789\",\r\n    \"accountId\" : \"0123456789\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\",\r\n    \"transactionType\" : \"CREDIT\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,6 +57,19 @@
 			"item": [
 				{
 					"name": "Debit Transaction API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -79,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"accountId\" : \"0123456787\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\"\r\n}",
+							"raw": "{\r\n    \"accountId\" : \"0123456789\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 1.00,\r\n    \"description\" : \"testing\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,7 +134,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/v1/accounts/0123456787/balance",
+							"raw": "http://localhost:8085/v1/accounts/0123456789/balance",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -117,7 +143,7 @@
 							"path": [
 								"v1",
 								"accounts",
-								"0123456787",
+								"0123456789",
 								"balance"
 							]
 						}
@@ -134,7 +160,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fromAccountId\" : \"\",\r\n    \"toAccountId\" : \"1234\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 120.00,\r\n    \"description\" : \"testing\"\r\n}",
+							"raw": "{\r\n    \"cifId\" : \"1234\",\r\n    \"accountId\" : \"12345678901\",\r\n    \"currency\" : \"AED\",\r\n    \"amount\" : 120.00,\r\n    \"description\" : \"testing\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

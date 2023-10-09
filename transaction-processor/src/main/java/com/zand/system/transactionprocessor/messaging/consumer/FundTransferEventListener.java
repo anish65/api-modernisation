@@ -28,7 +28,7 @@ public class FundTransferEventListener implements KafkaConsumer<String, Transact
 
     private final RateLimitConfig rateLimitConfig;
 
-    @Value("${kafka.publisher.topic.fund-transfer-failure}")
+    @Value("${kafka.consumer.topic.initiate-fund-transfer}")
     private String topicName;
 
     @Value("${kafka.consumer.id.initiate-fund-transfer}")
@@ -44,7 +44,7 @@ public class FundTransferEventListener implements KafkaConsumer<String, Transact
             ConsumerConfig.FETCH_MAX_BYTES_CONFIG + "=1",
             ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG + "=1",
             ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG+ "=1"
-    }, concurrency = "5")
+    }, concurrency = "2")
     public void receive(@Payload TransactionRQMessage message,
                         @Header(KafkaHeaders.RECEIVED_KEY) String key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,

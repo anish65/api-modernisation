@@ -29,7 +29,7 @@ public class CoreBankingService {
         try {
             return restTemplate.postForObject(baseUrl+transactionPath, message, TransactionRSMessage.class);
         } catch (Exception e) {
-            log.error("Error while calling core banking service. Error: {}", e.getMessage());
+            log.error("Error while calling core banking service. Error: {}", e);
             TransactionRSMessage fundTransferRSMessage = new TransactionRSMessage();
             fundTransferRSMessage.setReferenceNo(message.getReferenceNo());
             fundTransferRSMessage.setAccountId(message.getAccountId());

@@ -21,7 +21,7 @@ public class TransactionProcessorApplication {
 
 	@Bean
 	public NewTopic topic(@Value("${kafka.consumer.topic.initiate-fund-transfer}") String topicName) {
-		return new NewTopic(topicName, 5, (short) 1);
+		return new NewTopic(topicName, 2, (short) 1);
 	}
 
 
