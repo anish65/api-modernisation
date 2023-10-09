@@ -114,10 +114,8 @@ described below.
 
 PLease find the postman collection in given [link](./postman/API-modernisation.postman_collection.json)
 
-- Legacy-service
-  ![Legacy-service](./doc/Legacy-postman-screenshot.pages)
-- Transaction-REST-Seric
-  ![transaction-REST-Service](./doc/Transaction-REST-Service-postman-screenshot.pages)
+- [Legacy-service Postman screenshot](./doc/Legacy-postman-screenshot.pdf)
+- [Transaction-REST-Service Postman screenshot](./doc/Transaction-REST-Service-postman-screenshot.pdf)
 
 
 ## Unit Test
