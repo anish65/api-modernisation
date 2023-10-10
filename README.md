@@ -89,24 +89,21 @@ Please make sure your machine has the following things installed,
   - `Maven 3.8.*` (again comes bundled with most of the IDE)
 
 Steps to locally run the required applications,
-  - Please run the below services,
-    - Using maven
-      - Step 1: Open `terminal` and move to the `zand-fund-transfer` directory
-        - `cd {your-location}/zand-fund-transfer` 
-      - Step 2: Move to the `common-messaging` directory and build the
-        - `./mvn clean install --file ./common-mesaging/pom.xml`
-      - Step 3: Run each of the below commands on a separate terminal,
-        - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first. [refer](./kafka-stream/README.md)
-        - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`. [refer](./transaction-rest-service/README.md)
-        - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`. [refer](./transaction-proceessor/README.md)
-        - Move to the `legacy-service` and run `./mvn clean spring-boot:run`. [refer](./legacy-service/README.md)
+  - Step 1: Open `terminal` and move to the `api-modernisation` directory
+    - `cd {your-location}/api-modernisation` 
+  - Step 2: Move to the `common-messaging` directory and build the
+    - `./mvn clean install --file ./common-mesaging/pom.xml`
+  - Step 3: Run each of the below commands on a separate terminal,
+    - Move to the `kafka-server` and run `./mvn clean spring-boot:run`  - recommended to start this first. [refer](./kafka-stream/README.md)
+    - Move to the `transaction-rest-service` and run `./mvn clean spring-boot:run`. [refer](./transaction-rest-service/README.md)
+    - Move to the `transaction-proceessor` and run `./mvn clean spring-boot:run`. [refer](./transaction-proceessor/README.md)
+    - Move to the `legacy-service` and run `./mvn clean spring-boot:run`. [refer](./legacy-service/README.md)
 
-  - Once all the services are up & running, then go to service specific Swagger UI to execute the flows as 
-described below.
+Once all the services are up & running, then go to service specific Swagger UI to execute the flows as described below.
 
 ## End to end simulation
 
-PLease find the postman collection in given [link](./postman/API-modernisation.postman_collection.json)
+Please find the postman collection in given [link](./postman/API-modernisation.postman_collection.json)
 
 - [Legacy-service Postman screenshot](./doc/Legacy-postman-screenshot.pdf)
 - [Transaction-REST-Service Postman screenshot](./doc/Transaction-REST-Service-postman-screenshot.pdf)
