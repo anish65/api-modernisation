@@ -14,39 +14,33 @@
 
 ## Introduction
 
-### Purpose of the Document
-This architecture document aims to provide a detailed overview of the banking transaction processing solution, highlighting its design, components, and functionality. It serves as a comprehensive reference for developers, architects.
-
 ### Problem Statement Recap
-The project's goal is to build a scalable REST API for banking transactions, managing debit and credit operations while preventing the legacy system's overload. Key challenges include handling large volumes of requests and maintaining real-time balance accuracy.
+The project's objective is to develop a cutting-edge, scalable REST API for handling financial transactions, managing debit and credit operations, and minimizing overload on the legacy system. 
 
 ### Objectives and Goals
-The architecture's objectives include achieving scalability, ensuring accurate real-time balances, demonstrating legacy system slowness, and providing a robust API for banking transactions.
+The objectives include achieving scalability, ensuring accurate real-time balances, demonstrating legacy system slowness, and providing a robust API for banking transactions. Also mitigate any downtime and brief service interruptions in the legacy service without having an influence on the end users.
 
 ## Architecture Overview
 
-The architecture consists of four main components: Transaction-Rest-Service, Transaction-Processor-Service, Legacy-Service, and Kafka-Server. These components work together to enable seamless transaction processing.
+The solution consists of four main components: Transaction-REST-Service, Transaction-Processor-Service, Legacy-Service, and Kafka-Server. These components work together to enable seamless transaction processing.
 
 ![Link Name](./doc/Block-diagram.png)
 
-### Transaction-Rest-Service
+### Transaction-REST-Service
 The Transaction REST Service acts as the central gateway for debit and credit transactions in the banking system. It enables clients to initiate transactions, updates account balances in real time, and communicates asynchronously with the legacy system through event publication to Kafka. Furthermore, it subscribes to "Fund Transfer Success" and "Fund Transfer Failure" events, ensuring that balance and transaction details are consistently updated based on transaction outcomes.
-- Technologies : Java, Spring boot, Kafka, Postgresql
-
+- **Technology Stack** : Java, Spring boot, Kafka, Postgresql
 
 ### Transaction-Processor-Service
 The Transaction-Processor-Service is at the core of our banking architecture, diligently subscribing to the "Fund Transfer" event via Kafka. Once this event is received, it swiftly updates the legacy system through a REST API, ensuring seamless transaction processing. Additionally, it actively monitors the interaction, promptly publishing either "success" or "failure" events to the broker to communicate transaction outcomes transparently. To prevent overwhelming the legacy system, the service employs advanced rate-limiting mechanisms using Bucket4j with Redis cache, ensuring that transaction processing remains within the constraints of the legacy infrastructure.
-- Technology : Java, Spring boot, Redis, kafka
+- **Technology Stack** : Java, Spring boot, Redis, kafka
 
 ### Legacy-Service
 The Legacy-Service stands as a critical component within our banking architecture, serving as the bedrock for core banking REST APIs. Operating within specified transactions per second (TPS) constraints, this service shoulders the essential responsibility of processing fund transfer requests and effecting updates in the core database. While its primary function is to facilitate seamless transaction processing, it also serves as a testament to legacy API behavior by adhering to the predefined TPS limits.
-- Technology
-  - Java, Spring boot
+- **Technology Stack** Java, Spring boot
 
 ### Kafka-Server
 Kafka-Server, our chosen message broker, serves as the central hub for enabling efficient communication among microservices within our architecture, following an event-driven paradigm. It acts as the key conduit, orchestrating the seamless flow of events and messages, ensuring timely and effective data exchange between the various components. This service is purpose-built to demonstrate the capabilities of Kafka in a development environment, specifically utilizing Java Spring Boot. It exemplifies the foundational role of Kafka in our banking system's event-driven architecture
-- Technology
-  - Java, Spring boot Kafka
+- **Technology Stack** Java, Spring boot Kafka
 
 ## Approach & Design Considerations
 
@@ -126,9 +120,9 @@ PLease find the postman collection in given [link](./postman/API-modernisation.p
   ![Link Name](./doc/Transactio-processor.png)
 
 ## Future Enhancements
-As the system evolves, consider potential future enhancements and optimizations, such as:
+As the system evolves, we can consider potential future enhancements and optimizations, such as:
 
-- **Advanced Rate Limiting**: Implement dynamic rate limiting strategies based on the legacy system's real-time load.
+- **Adaptive Rate Limiting**: Implement dynamic rate limiting strategies based on the legacy system's real-time load.
 This ensures optimal resource allocation, preventing system overload during high-demand periods.
 - **Retry Handling**: Enhance fault tolerance with robust retry mechanisms and circuit breakers for REST API and Kafka calls.
 This improves reliability by intelligently managing transient errors and service failures.
