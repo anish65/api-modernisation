@@ -1,0 +1,63 @@
+title Scalable Banking API
+
+actor User
+User->TrnxRestService:Fetch account balance
+activate TrnxRestService
+TrnxRestService->TrnxRestService:Query account balance\nfrom database
+TrnxRestService->User:Fetch account balance
+deactivate TrnxRestService
+
+
+User->TrnxRestService:Initiate crediyt/debit transaction 
+activate TrnxRestService
+TrnxRestService->TrnxRestService:Update Account balance\nin database
+TrnxRestService->Kafka:Publish "Initiate Fund Transfer" event
+alt In Successful publishing
+TrnxRestService->User:Return credit/debit response
+else In failure in publishing
+TrnxRestService->TrnxRestService:Revert credit/debit\nbalance in database
+TrnxRestService->User:Return credit/debit response
+end
+deactivate TrnxRestService
+Kafka<<--TrxnProcessor:Subscribe "Initiate Fund Transfer" event
+activate TrxnProcessor
+
+TrxnProcessor->Redis:Request token for the \nlegacy service api call
+Redis->TrxnProcessor:Receive token response
+alt If token not available
+
+loop until get the token
+note over TrxnProcessor:wait for few sec
+TrxnProcessor->Redis: Get the token for the legacy call
+end
+
+end
+
+
+TrxnProcessor->LegacyService:Update legacy service \nwith debit/credit transaction
+
+
+LegacyService->TrxnProcessor:Returning credit/debit transaction
+alt In success
+TrxnProcessor->Kafka:Publish "Fund Transfer success" event
+Kafka<<--TrnxRestService:Subscribe "Fund Transfer sucess"
+
+activate TrnxRestService
+
+TrnxRestService->TrnxRestService:Update transaction \nstatus in the db\n
+deactivate TrnxRestService
+
+else In Failure
+TrxnProcessor->Kafka:Publish "Fund Transfer failed" event
+
+deactivate TrxnProcessor
+
+Kafka<<--TrnxRestService:Subscribe "Fund Transfer failed" event
+activate TrnxRestService
+
+TrnxRestService->TrnxRestService:Revert credit/debit \nin balance from DB
+deactivate TrnxRestService
+end
+
+
+
